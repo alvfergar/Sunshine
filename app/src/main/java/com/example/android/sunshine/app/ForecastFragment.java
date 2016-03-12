@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.AsyncTask;
@@ -12,8 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -65,8 +68,18 @@ public class ForecastFragment extends Fragment{
         FetchWeatherTask weatherTask = new FetchWeatherTask();
         weatherTask.execute("94043");
 
-        ListView vista = (ListView) rootView.findViewById(R.id.listview_forecast);
-        vista.setAdapter(mForecastAdapter);
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView.setAdapter(mForecastAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Context context = getActivity().getApplicationContext();
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, adapterView.getItemAtPosition(i).toString(), duration);
+                toast.show();
+            }
+        });
 
         return rootView;
     }
