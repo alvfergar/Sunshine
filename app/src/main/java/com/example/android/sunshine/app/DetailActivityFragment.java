@@ -1,4 +1,4 @@
-package com.example.android.sunshine.app.com.example.android.sunshine.app;
+package com.example.android.sunshine.app;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
