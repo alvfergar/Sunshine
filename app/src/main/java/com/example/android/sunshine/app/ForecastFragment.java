@@ -1,7 +1,10 @@
 package com.example.android.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,8 +39,11 @@ import java.util.List;
  * Created by Alvaro on 24/02/2016.
  */
 public class ForecastFragment extends Fragment{
-
-    private static final String apikey = "7276eaa84b1f3801ba188638e89ab4ac";
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
 
     private ArrayAdapter<String> mForecastAdapter;
 
@@ -63,8 +69,7 @@ public class ForecastFragment extends Fragment{
                 R.id.list_item_forecast_textview,
                 items);
 
-        FetchWeatherTask weatherTask = new FetchWeatherTask();
-        weatherTask.execute("94043");
+
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
@@ -136,7 +141,7 @@ public class ForecastFragment extends Fragment{
                         .appendQueryParameter(FORMAT_PARAM, format)
                         .appendQueryParameter(UNITS_PARAM, units)
                         .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
-                        .appendQueryParameter(APPID, apikey)
+                        .appendQueryParameter(APPID, getString(R.string.api_key))
                         .build();
 
                 URL  url = new  URL(builtUri.toString());
@@ -309,11 +314,18 @@ public class ForecastFragment extends Fragment{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("94043");
+            updateWeather();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
+        weatherTask.execute(location);
     }
 }
