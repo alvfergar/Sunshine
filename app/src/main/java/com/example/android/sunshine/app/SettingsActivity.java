@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.app.Notification;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 

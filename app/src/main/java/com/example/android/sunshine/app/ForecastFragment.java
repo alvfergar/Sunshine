@@ -95,6 +95,27 @@ public class ForecastFragment extends Fragment{
 
         private final String LOG_TAG = FetchWeatherTask.class.getName();
 
+        /**
+         * Prepare the weather high/lows for presentation.
+         */
+        private String formatHighLows(double high, double low, String unitType) {
+
+            if (unitType.equals(getString(R.string.pref_temperature_imperial))) {
+                high = (high * 1.8) + 32;
+                low = (low * 1.8) + 32;
+            } else if (!unitType.equals(getString(R.string.pref_temperature_default))) {
+                Log.d(LOG_TAG, "Unit type not found: " + unitType);
+            }
+
+            // For presentation, assume the user doesn't care about tenths of a degree.
+            long roundedHigh = Math.round(high);
+            long roundedLow = Math.round(low);
+
+            String highLowStr = roundedHigh + "/" + roundedLow;
+            return highLowStr;
+        }
+
+
         @Override
         protected void onPostExecute(String[] result) {
 
@@ -139,7 +160,7 @@ public class ForecastFragment extends Fragment{
                 Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                         .appendQueryParameter(QUERY_PARAM, params[0])
                         .appendQueryParameter(FORMAT_PARAM, format)
-                        .appendQueryParameter(UNITS_PARAM, params[1])
+                        .appendQueryParameter(UNITS_PARAM, units)
                         .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
                         .appendQueryParameter(APPID, getString(R.string.api_key))
                         .build();
@@ -263,6 +284,17 @@ public class ForecastFragment extends Fragment{
             dayTime = new Time();
 
             String[] resultStrs = new String[numDays];
+            // Data is fetched in Celsius by default.
+            // If user prefers to see in Fahrenheit, convert the values here.
+            // We do this rather than fetching in Fahrenheit so that the user can
+            // change this option without us having to re-fetch the data once
+            // we start storing the values in a database.
+            SharedPreferences sharedPrefs =
+                    PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPrefs.getString(
+                    getString(R.string.pref_temperature_key),
+                    getString(R.string.pref_temperature_default));
+
             for(int i = 0; i < weatherArray.length(); i++) {
                 // For now, using the format "Day, description, hi/low"
                 String day;
@@ -290,10 +322,9 @@ public class ForecastFragment extends Fragment{
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWM_MIN);
 
-                highAndLow = formatHighLows(high, low);
+                highAndLow = formatHighLows(high, low, unitType);
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
-
             return resultStrs;
 
         }
@@ -326,8 +357,6 @@ public class ForecastFragment extends Fragment{
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String location = prefs.getString(getString(R.string.pref_location_key),
                 getString(R.string.pref_location_default));
-        String temperatureUnits = prefs.getString(getString(R.string.pref_temperature_key),
-                getString(R.string.pref_temperature_default));
-        weatherTask.execute(location, temperatureUnits);
+        weatherTask.execute(location);
     }
 }
