@@ -27,5 +27,8 @@
     <!--Map-->
     <string name="action_map">Map Location</string>
 
+    <!-- Share -->
+    <string name="action_share">Share</string>
+
 
 </resources>
