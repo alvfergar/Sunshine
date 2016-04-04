@@ -39,7 +39,20 @@ public class WeatherContract {
         done for WeatherEntry)
      */
     public static final class LocationEntry implements BaseColumns {
+
+        //firstable we need to describe the table name.
         public static final String TABLE_NAME = "location";
+
+        //we need to define the key
+        public static final String COLUMN_LOC_KEY = "location_id";
+
+        //and down we describe columns which are name of attributes to persist
+        public static final String COLUMN_LOCATION_SETTING = "location setting";
+
+        public static final String COLUMN_CITY_NAME = "city_name";
+
+        public static final String COLUMN_COORD_LAT = "coord_lat";
+        public static final String COLUMN_COORD_LONG = "coord_long";
 
     }
 
