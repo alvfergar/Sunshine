@@ -202,7 +202,7 @@ public class TestDb extends AndroidTestCase {
         // Move the cursor to a valid database row
 
        c.moveToFirst();
-        
+
         // Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
         // query if you like)
