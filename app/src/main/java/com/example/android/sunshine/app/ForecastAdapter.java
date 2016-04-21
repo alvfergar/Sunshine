@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.sunshine.app.R;
-import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.util.Utility;
 
 /**
@@ -17,6 +15,8 @@ import com.example.android.sunshine.app.util.Utility;
  * from a {@link android.database.Cursor} to a {@link android.widget.ListView}.
  */
 public class ForecastAdapter extends CursorAdapter {
+
+
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
@@ -36,17 +36,26 @@ public class ForecastAdapter extends CursorAdapter {
      */
     private String convertCursorRowToUXFormat(Cursor cursor) {
         // get row indices for our cursor
-        int idx_max_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MAX_TEMP);
-        int idx_min_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP);
-        int idx_date = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_DATE);
-        int idx_short_desc = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_SHORT_DESC);
+//        int idx_max_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MAX_TEMP);
+//        int idx_min_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP);
+//        int idx_date = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_DATE);
+//        int idx_short_desc = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_SHORT_DESC);
+//
+//        Log.wtf("VER",
+//                "\nMAX: " + String.valueOf(idx_max_temp) +
+//                        "\nMIN: " + String.valueOf(idx_min_temp) +
+//                        "\nDATE: " + String.valueOf(idx_date) +
+//                        "\nSORT_DESC: " + String.valueOf(idx_short_desc)
+//        );
+
 
         String highAndLow = formatHighLows(
-                cursor.getDouble(idx_max_temp),
-                cursor.getDouble(idx_min_temp));
+                cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP),
+                cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP));
 
-        return Utility.formatDate(cursor.getLong(idx_date)) +
-                " - " + cursor.getString(idx_short_desc) +
+
+        return Utility.formatDate(cursor.getLong(ForecastFragment.COL_WEATHER_DATE)) +
+                " - " + cursor.getString(ForecastFragment.COL_WEATHER_DESC) +
                 " - " + highAndLow;
     }
 
@@ -71,4 +80,5 @@ public class ForecastAdapter extends CursorAdapter {
         TextView tv = (TextView)view;
         tv.setText(convertCursorRowToUXFormat(cursor));
     }
+
 }
