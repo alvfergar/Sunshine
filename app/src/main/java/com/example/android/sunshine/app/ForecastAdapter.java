@@ -35,19 +35,6 @@ public class ForecastAdapter extends CursorAdapter {
         string.
      */
     private String convertCursorRowToUXFormat(Cursor cursor) {
-        // get row indices for our cursor
-//        int idx_max_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MAX_TEMP);
-//        int idx_min_temp = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_MIN_TEMP);
-//        int idx_date = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_DATE);
-//        int idx_short_desc = cursor.getColumnIndex(WeatherContract.WeatherEntry.COLUMN_SHORT_DESC);
-//
-//        Log.wtf("VER",
-//                "\nMAX: " + String.valueOf(idx_max_temp) +
-//                        "\nMIN: " + String.valueOf(idx_min_temp) +
-//                        "\nDATE: " + String.valueOf(idx_date) +
-//                        "\nSORT_DESC: " + String.valueOf(idx_short_desc)
-//        );
-
 
         String highAndLow = formatHighLows(
                 cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP),
