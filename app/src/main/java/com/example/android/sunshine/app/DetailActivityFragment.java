@@ -153,7 +153,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             //We are going to read all fields form cursor
             //WEATHER CONDITION ID --> for select each imageView show
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
-            mIconView.setImageResource(R.drawable.ic_launcher);
+            mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
 
             //DAY OF WEEK
             long date = data.getLong(COL_WEATHER_DATE);

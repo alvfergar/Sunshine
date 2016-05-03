@@ -12,13 +12,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tomorrow"
             android:id="@+id/detail_day_textview" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="March 2"
             android:id="@+id/detail_date_textview" />
 
         <LinearLayout
@@ -36,13 +34,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="21º"
                     android:id="@+id/detail_high_textview" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12º"
                     android:id="@+id/detail_low_textview" />
             </LinearLayout>
 
@@ -56,13 +52,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/detail_icon"
-                    android:src="@drawable/ic_launcher"/>
+                    android:id="@+id/detail_icon" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Clear"
                     android:id="@+id/detail_forecast_textview" />
             </LinearLayout>
         </LinearLayout>
@@ -70,19 +64,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="48%"
             android:id="@+id/detail_humidity_textview" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="6 km/h NW"
             android:id="@+id/detail_wind_textview" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1014"
             android:id="@+id/detail_pressure_textview" />
 
     </LinearLayout>
