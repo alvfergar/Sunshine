@@ -70,14 +70,14 @@ public class ForecastAdapter extends CursorAdapter {
         int viewtype = getItemViewType(cursor.getPosition());
         int layoutId = -1;
 
-        if ( viewtype == VIEW_TYPE_TODAY){
+        if (viewtype == VIEW_TYPE_TODAY) {
             layoutId = R.layout.list_item_forecast_today;
-        }else if ( viewtype == VIEW_TYPE_FUTURE_DAY){
+        } else if (viewtype == VIEW_TYPE_FUTURE_DAY) {
             layoutId = R.layout.list_item_forecast;
         }
 
         View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
-        ViewHolder  viewHolder = new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
         view.setTag(viewHolder);
 
         return view;
@@ -136,14 +136,14 @@ public class ForecastAdapter extends CursorAdapter {
 
     }
 
-    public static class ViewHolder{
+    public static class ViewHolder {
         public final ImageView iconView;
         public final TextView dateView;
         public final TextView descriptionView;
         public final TextView highTempView;
         public final TextView lowTempView;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             iconView = (ImageView) view.findViewById(R.id.list_item_icon);
             dateView = (TextView) view.findViewById(R.id.list_item_date_textview);
             descriptionView = (TextView) view.findViewById(R.id.list_item_forecast_textview);

@@ -54,7 +54,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
     private boolean DEBUG = true;
 
 
-
     /**
      * Prepare the weather high/lows for presentation.
      */
@@ -63,9 +62,9 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
      * Helper method to handle insertion of a new location in the weather database.
      *
      * @param locationSetting The location string used to request updates from the server.
-     * @param cityName A human-readable city name, e.g "Mountain View"
-     * @param lat the latitude of the city
-     * @param lon the longitude of the city
+     * @param cityName        A human-readable city name, e.g "Mountain View"
+     * @param lat             the latitude of the city
+     * @param lon             the longitude of the city
      * @return the row ID of the added location.
      */
     long addLocation(String locationSetting, String cityName, double lat, double lon) {
@@ -81,7 +80,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 null
         );
 
-        if (locationCursor.moveToFirst()){
+        if (locationCursor.moveToFirst()) {
             int locationIdIndex = locationCursor.getColumnIndex(WeatherContract.LocationEntry._ID);
             locationId = locationCursor.getLong(locationIdIndex);
         } else {
@@ -96,7 +95,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             // Finally, insert location data into the database.
             Uri insertedUri = mContext.getContentResolver().insert(
                     WeatherContract.LocationEntry.CONTENT_URI,
-                     locationValues
+                    locationValues
             );
 
             // The resulting URI contains the ID for the row.  Extract the locationId from the Uri.
@@ -110,11 +109,10 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
     }
 
 
-
     /**
      * Take the String representing the complete forecast in JSON Format and
      * pull out the data we need to construct the Strings needed for the wireframes.
-     *
+     * <p/>
      * Fortunately parsing is easy:  constructor takes the JSON string and converts it
      * into an Object hierarchy for us.
      */
@@ -187,7 +185,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             // now we work exclusively in UTC
             dayTime = new Time();
 
-            for(int i = 0; i < weatherArray.length(); i++) {
+            for (int i = 0; i < weatherArray.length(); i++) {
                 // These are the values that will be collected.
                 long dateTime;
                 double pressure;
@@ -205,7 +203,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
                 JSONObject dayForecast = weatherArray.getJSONObject(i);
 
                 // Cheating to convert this to UTC time, which is what we want anyhow
-                dateTime = dayTime.setJulianDay(julianStartDay+i);
+                dateTime = dayTime.setJulianDay(julianStartDay + i);
 
                 pressure = dayForecast.getDouble(OWM_PRESSURE);
                 humidity = dayForecast.getInt(OWM_HUMIDITY);
@@ -243,7 +241,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
 
             int inserted = 0;
             // add to database
-            if ( cVVector.size() > 0 ) {
+            if (cVVector.size() > 0) {
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
                 inserted = mContext.getContentResolver().bulkInsert(WeatherEntry.CONTENT_URI, cvArray);
@@ -251,8 +249,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
 
             Log.d(LOG_TAG, "FetchWeatherTask Complete. " + inserted + " Inserted");
             Log.d(LOG_TAG, "Como se insertan:");
-            for(ContentValues cv: cVVector){
-                Log.d(LOG_TAG,cv.toString());
+            for (ContentValues cv : cVVector) {
+                Log.d(LOG_TAG, cv.toString());
             }
 
         } catch (JSONException e) {

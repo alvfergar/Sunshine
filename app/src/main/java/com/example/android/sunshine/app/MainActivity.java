@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.example.android.sunshine.app.util.Utility;
 
 
-public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback{
+public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback {
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -28,9 +28,9 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
 
         setContentView(R.layout.activity_main);
 
-        if (findViewById(R.id.weather_detail_container) != null){
+        if (findViewById(R.id.weather_detail_container) != null) {
             mTwoPane = true;
-            if (savedInstanceState == null){
+            if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.weather_detail_container, new DetailActivityFragment(), DETAILFRAGMENT_TAG)
                         .commit();
@@ -90,15 +90,15 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     @Override
     protected void onResume() {
         super.onResume();
-        String location = Utility.getPreferredLocation( this );
+        String location = Utility.getPreferredLocation(this);
         // update the location in our second pane using the fragment manager
         if (location != null && !location.equals(mLocation)) {
-            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
-            if ( null != ff ) {
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
+            if (null != ff) {
                 ff.onLocationChanged();
             }
             DetailActivityFragment df = (DetailActivityFragment) getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
-            if ( null != df ) {
+            if (null != df) {
                 df.onLocationChanged(location);
             }
 

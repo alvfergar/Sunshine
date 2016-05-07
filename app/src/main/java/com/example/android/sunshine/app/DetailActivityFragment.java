@@ -120,6 +120,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             mShareActionProvider.setShareIntent(createShareForecastIntent());
         }
     }
+
     private Intent createShareForecastIntent() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -136,7 +137,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if ( null != mUri ) {
+        if (null != mUri) {
 
             // Now create and return a CursorLoader that will take care of
             // creating a Cursor for the data being displayed.
@@ -154,7 +155,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if(data != null && data.moveToFirst()){
+        if (data != null && data.moveToFirst()) {
             //We are going to read all fields form cursor
             //WEATHER CONDITION ID --> for select each imageView show
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
@@ -189,7 +190,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             //WIND SPEED AND DIRECTION
             float windSpeedString = data.getFloat(COL_WEATHER_WIND_SPEED);
             float winDirString = data.getFloat(COL_WEATHER_DEGREES);
-            mWindView.setText(Utility.getFormattedWind(getActivity(),windSpeedString, winDirString));
+            mWindView.setText(Utility.getFormattedWind(getActivity(), windSpeedString, winDirString));
 
             //PRESSURE
             float pressure = data.getFloat(COL_WEATHER_PRESSURE);
@@ -197,14 +198,15 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
             mForecast = String.format("%s - %s - %s/%s", dateText, description, high, low);
 
-            if (mShareActionProvider != null){
+            if (mShareActionProvider != null) {
                 mShareActionProvider.setShareIntent(createShareForecastIntent());
             }
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) { }
+    public void onLoaderReset(Loader<Cursor> loader) {
+    }
 
     public void onLocationChanged(String location) {
         //Replace the URI if location has changed
