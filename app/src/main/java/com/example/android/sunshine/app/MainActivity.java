@@ -37,7 +37,11 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
             }
         } else {
             mTwoPane = false;
+            getSupportActionBar().setElevation(0f);
         }
+
+        ForecastFragment forecastFragment = ((ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast));
+        forecastFragment.setUseTodayLayout(!mTwoPane);
     }
 
     @Override
@@ -121,6 +125,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         } else {
             Intent intent = new Intent(this, DetailActivity.class)
                     .setData(contentUri);
+            startActivity(intent);
         }
     }
 }

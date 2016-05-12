@@ -172,6 +172,9 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             String description = data.getString(COL_WEATHER_DESC);
             mDescriptionView.setText(description);
 
+            // For accessibility, add a content description to the icon field
+            mIconView.setContentDescription(description);
+
             //HIGH AND LOW TEMPERATURE
             boolean isMetric = Utility.isMetric(getActivity());
 

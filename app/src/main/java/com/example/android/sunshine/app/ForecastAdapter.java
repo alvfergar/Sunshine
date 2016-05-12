@@ -21,6 +21,8 @@ public class ForecastAdapter extends CursorAdapter {
     private final int VIEW_TYPE_FUTURE_DAY = 1;
     private final int VIEW_TYPE_COUNT = 2;
 
+    private boolean mUseTodayLayout = true;
+
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
@@ -120,6 +122,8 @@ public class ForecastAdapter extends CursorAdapter {
         TextView weatherTextView = (TextView) view.findViewById(R.id.list_item_forecast_textview);
         weatherTextView.setText(weatherInfo);
 
+        viewHolder.iconView.setContentDescription(weatherInfo);
+
         // Read user preference for metric or imperial temperature units
         boolean isMetric = Utility.isMetric(context);
 
@@ -134,6 +138,11 @@ public class ForecastAdapter extends CursorAdapter {
         TextView lowView = (TextView) view.findViewById(R.id.list_item_low_textview);
         lowView.setText(Utility.formatTemperature(context, low, isMetric));
 
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+
+        mUseTodayLayout = useTodayLayout;
     }
 
     public static class ViewHolder {
