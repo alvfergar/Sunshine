@@ -1,8 +1,5 @@
 package com.example.android.sunshine.app;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,7 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.sunshine.app.data.WeatherContract;
-import com.example.android.sunshine.app.service.SunshineService;
+import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 import com.example.android.sunshine.app.util.Utility;
 
 /**
@@ -30,6 +27,7 @@ import com.example.android.sunshine.app.util.Utility;
  */
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
     private ForecastAdapter mForecastAdapter;
     private ListView mListView;
     private int mPosition = ListView.INVALID_POSITION;
@@ -108,8 +106,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            updateWeather();
+//        if (id == R.id.action_refresh) {
+//            updateWeather();
+//            SunshineSyncAdapter.syncImmediately(getContext());
+//            return true;
+//        }
+        if (id == R.id.action_map) {
+            openPreferredLocationInMap();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -173,21 +176,51 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     // since we read the location when we create the loader, all we need to do is restart things
     void onLocationChanged() {
-        updateWeather();
+        //updateWeather();
+        SunshineSyncAdapter.syncImmediately(getContext());
         getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }
 
+    private void openPreferredLocationInMap(){
+
+        if ( null != mForecastAdapter ){
+            Cursor c = mForecastAdapter.getCursor();
+
+            if( null != c){
+                c.moveToPosition(0);
+                String posLat = c.getString(COL_COORD_LAT);
+                String posLong = c.getString(COL_COORD_LONG);
+                Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                if(intent.resolveActivity(getActivity().getPackageManager()) != null){
+                    startActivity(intent);
+                } else {
+                    Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + " , " +
+                            "no reciving apps intalled");
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // When tablets rotate, the currently selected list item needs to be saved.
+        // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
+        // so check for that before storing.
+        if (mPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+        super.onSaveInstanceState(outState);
+    }
+    
     private void updateWeather() {
-        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
-        alarmIntent.putExtra(
-                SunshineService.LOCATION_QUERY_EXTRA,
-                Utility.getPreferredLocation(getActivity())
-        );
-
-
-        PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager am = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pi);
+        //String location = Utility.getPreferredLocation(getActivity());
+        //new FetchWeatherTask(getActivity()).execute(location);
+        SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
     @Override
