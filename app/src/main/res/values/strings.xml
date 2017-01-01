@@ -106,6 +106,7 @@
     <string name="empty_forecast_list_no_network">No Weather Information Available. The network is not available to fetch the weather data.</string>
     <string name="empty_forecast_list_server_down">No Weather Information Available. The server is not returning data.</string>
     <string name="empty_forecast_list_server_error">No Weather Information Available. The server is not returning valid data. Please check for an updated version of Sunshine.</string>
+    <string name="empty_forecast_list_invalid_location">No Weather Information Available. The location is not found in the server.</string>
 
     <!-- Key name for storing location status in SharedPreferences -->
     <string name="pref_location__status_key" translatable="false">loc_status</string>
